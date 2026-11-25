@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GitMaster: The definitive developer guide to mastering Git version control and GitHub workflows. Includes command references, interactive checklist, and deployment walkthroughs.">
+  <title>GitMaster – Git & GitHub Learning Guide</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+  <!-- Top Reading Progress Indicator -->
+  <div id="scroll-progress-bar" class="scroll-progress-bar" aria-hidden="true"></div>
+
+  <!-- Header & Navigation -->
+  <header class="site-header" id="site-header">
+    <div class="header-container">
+      <a href="#hero" class="brand-logo" aria-label="GitMaster Home">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="6" y1="3" x2="6" y2="15"></line>
+            <circle cx="18" cy="6" r="3"></circle>
+            <circle cx="6" cy="18" r="3"></circle>
+            <path d="M18 9a9 9 0 0 1-9 9"></path>
+          </svg>
+        </div>
+        <span class="logo-text">Git<span class="gradient-text">Master</span></span>
+        <span class="badge badge-subtle">v2.4 Guide</span>
+      </a>
+
+      <!-- Quick Command Search Bar in Header -->
+      <div class="header-search">
+        <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="global-search-input" placeholder="Search commands, guides, tips... (Press '/')" aria-label="Search content">
+        <span class="search-shortcut" id="search-shortcut-badge">/</span>
+      </div>
+
+      <nav class="nav-links" id="desktop-nav">
+        <a href="#fundamentals" class="nav-link">Fundamentals</a>
+        <a href="#installation" class="nav-link">Install & Setup</a>
+        <a href="#commands" class="nav-link">Commands</a>
+        <a href="#push-guide" class="nav-link">Push to GitHub</a>
+        <a href="#github-pages" class="nav-link">GitHub Pages</a>
+        <a href="#checklist" class="nav-link highlight-link">
+          <span>Checklist</span>
+          <span class="nav-progress-pill" id="nav-checklist-counter">0/16</span>
+        </a>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="btn-icon" aria-label="Toggle dark/light mode" title="Toggle Theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <!-- Mobile Drawer Toggle -->
+        <button id="mobile-menu-btn" class="btn-icon mobile-only" aria-label="Toggle navigation drawer" aria-expanded="false">
+          <svg class="menu-open-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+          <svg class="menu-close-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Overlay & Menu -->
+  <div class="mobile-drawer-backdrop" id="mobile-backdrop"></div>
+  <aside class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
+    <div class="drawer-header">
+      <span class="drawer-title">Navigation</span>
+      <button class="btn-icon drawer-close-btn" id="drawer-close" aria-label="Close menu">&times;</button>
+    </div>
+    <div class="drawer-search">
+      <input type="text" id="mobile-search-input" placeholder="Search commands..." aria-label="Search commands">
+    </div>
+    <nav class="drawer-nav">
+      <a href="#hero" class="drawer-link">Home Overview</a>
+      <a href="#fundamentals" class="drawer-link">Git & GitHub Fundamentals</a>
+      <a href="#installation" class="drawer-link">Installation & Setup</a>
+      <a href="#commands" class="drawer-link">Essential Commands (11)</a>
+      <a href="#push-guide" class="drawer-link">Push Local Project Guide</a>
+      <a href="#github-pages" class="drawer-link">GitHub Pages Deployment</a>
+      <a href="#checklist" class="drawer-link">Interactive Checklist</a>
+    </nav>
+    <div class="drawer-footer">
+      <div class="checklist-progress-snippet">
+        <span>Checklist Progress:</span>
+        <strong id="drawer-progress-text">0%</strong>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Container with Sidebar + Content -->
+  <div class="page-layout">
+    <!-- Desktop Sticky Sidebar / Table of Contents -->
+    <aside class="toc-sidebar" id="toc-sidebar">
+      <div class="sidebar-inner">
+        <div class="sidebar-heading">Table of Contents</div>
+        <ul class="sidebar-list">
+          <li><a href="#hero" class="sidebar-link active">Welcome & Overview</a></li>
+          <li><a href="#fundamentals" class="sidebar-link">Git vs GitHub</a></li>
+          <li><a href="#three-trees" class="sidebar-link sub">The 3-Tree Architecture</a></li>
+          <li><a href="#installation" class="sidebar-link">Installation & Config</a></li>
+          <li><a href="#commands" class="sidebar-link">11 Core Commands</a></li>
+          <li class="cmd-sublinks">
+            <a href="#cmd-init" class="sidebar-link sub cmd-tag">init</a>
+            <a href="#cmd-add" class="sidebar-link sub cmd-tag">add</a>
+            <a href="#cmd-commit" class="sidebar-link sub cmd-tag">commit</a>
+            <a href="#cmd-status" class="sidebar-link sub cmd-tag">status</a>
+            <a href="#cmd-log" class="sidebar-link sub cmd-tag">log</a>
+            <a href="#cmd-branch" class="sidebar-link sub cmd-tag">branch</a>
+            <a href="#cmd-switch" class="sidebar-link sub cmd-tag">switch</a>
+            <a href="#cmd-remote" class="sidebar-link sub cmd-tag">remote</a>
+            <a href="#cmd-push" class="sidebar-link sub cmd-tag">push</a>
+            <a href="#cmd-pull" class="sidebar-link sub cmd-tag">pull</a>
+            <a href="#cmd-clone" class="sidebar-link sub cmd-tag">clone</a>
+          </li>
+          <li><a href="#push-guide" class="sidebar-link">Push Local to GitHub</a></li>
+          <li><a href="#github-pages" class="sidebar-link">GitHub Pages Guide</a></li>
+          <li><a href="#checklist" class="sidebar-link">Interactive Checklist</a></li>
+        </ul>
+
+        <div class="sidebar-widget">
+          <div class="widget-header">
+            <span class="widget-title">Checklist Goal</span>
+            <span class="badge badge-accent" id="widget-badge">0%</span>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="widget-progress-fill" style="width: 0%;"></div>
+          </div>
+          <p class="widget-subtext" id="widget-subtext">0 of 16 completed</p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content" id="main-content">
+      
+      <!-- HERO SECTION -->
+      <section id="hero" class="hero-section">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          <span>Zero to Production Git Mastery</span>
+        </div>
+        <h1 class="hero-title">
+          Master <span class="gradient-text">Git & GitHub</span> from First Commit to Cloud Deployment
+        </h1>
+        <p class="hero-description">
+          A modern, battle-tested visual reference designed for software engineers, student developers, and team contributors. Learn the mental models, master the 11 essential terminal commands, and deploy live websites to GitHub Pages.
+        </p>
+
+        <!-- Hero Action Buttons -->
+        <div class="hero-cta-group">
+          <a href="#commands" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="4 17 10 11 4 5"></polyline>
+              <line x1="12" y1="19" x2="20" y2="19"></line>
+            </svg>
+            Explore 11 Commands
+          </a>
+          <a href="#push-guide" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path>
+              <path d="M12 12v9"></path>
+              <path d="m16 16-4-4-4 4"></path>
+            </svg>
+            Push to GitHub Guide
+          </a>
+          <a href="#checklist" class="btn btn-outline">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 11l3 3L22 4"></path>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+            Learning Tracker
+          </a>
+        </div>
+
+        <!-- Quick Value Highlights Grid -->
+        <div class="hero-metrics">
+          <div class="metric-card">
+            <span class="metric-number">11</span>
+            <span class="metric-label">Core Commands Explained</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-number">100%</span>
+            <span class="metric-label">Client-Side & Offline Ready</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-number">16</span>
+            <span class="metric-label">Interactive Checklist Tasks</span>
+          </div>
+          <div class="metric-card">
+            <span class="metric-number">1-Click</span>
+            <span class="metric-label">Copy-to-Clipboard Snippets</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 1: GIT & GITHUB FUNDAMENTALS -->
+      <section id="fundamentals" class="guide-section">
+        <div class="section-header">
+          <div class="section-tag">Section 01</div>
+          <h2 class="section-title">Git & GitHub Fundamentals</h2>
+          <p class="section-subtitle">Understanding the mental model: what is happening under the hood, and how Git differs from GitHub.</p>
+        </div>
+
+        <!-- Git vs GitHub Comparison Grid -->
+        <div class="comparison-grid">
+          <div class="glass-card card-git">
+            <div class="card-badge-header">
+              <div class="icon-avatar git-bg">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="18" cy="18" r="3"></circle>
+                  <circle cx="6" cy="6" r="3"></circle>
+                  <path d="M13 6h3a2 2 0 0 1 2 2v7"></path>
+                  <line x1="6" y1="9" x2="6" y2="21"></line>
+                </svg>
+              </div>
+              <div>
+                <h3 class="card-title">Git</h3>
+                <span class="pill-text">Local Version Control Tool</span>
+              </div>
+            </div>
+            <p class="card-body-text">
+              Git is a free, open-source <strong>Distributed Version Control System (DVCS)</strong> created by Linus Torvalds in 2005. It runs entirely on your local machine and tracks every modification made to code files over time.
+            </p>
+            <ul class="feature-bullets">
+              <li>Works 100% offline without internet connection</li>
+              <li>Stores full repository snapshot history in hidden <code>.git</code> folder</li>
+              <li>Allows lightning-fast branch creation, switching, and merging</li>
+              <li>Maintained via Command Line Interface (CLI) or GUI tools</li>
+            </ul>
+          </div>
+
+          <div class="glass-card card-github">
+            <div class="card-badge-header">
+              <div class="icon-avatar github-bg">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="card-title">GitHub</h3>
+                <span class="pill-text">Cloud Hosting & Collaboration Hub</span>
+              </div>
+            </div>
+            <p class="card-body-text">
+              GitHub is a cloud platform that hosts remote Git repositories. It layers essential team collaboration features, security scanning, code reviews, automated pipelines, and cloud hosting on top of Git.
+            </p>
+            <ul class="feature-bullets">
+              <li>Hosts remote copies of your code for backup and collaboration</li>
+              <li>Provides <strong>Pull Requests (PRs)</strong> for peer code review</li>
+              <li>Automates tests & deployments with <strong>GitHub Actions</strong></li>
+              <li>Hosts static websites for free via <strong>GitHub Pages</strong></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- The 3-Tree Architecture Deep Dive -->
+        <div id="three-trees" class="content-block">
+          <h3 class="subsection-title">
+            <span class="title-decor"></span> The Git 3-Tree Architecture
+          </h3>
+          <p class="text-secondary">
+            Unlike other backup systems that just copy files, Git manages your files across three logical areas on your machine before they ever reach a remote server like GitHub:
+          </p>
+
+          <!-- Visual Workflow Diagram (Responsive SVG/CSS) -->
+          <div class="architecture-diagram-container">
+            <div class="diagram-grid">
+              
+              <!-- Zone 1: Working Directory -->
+              <div class="diagram-node">
+                <div class="node-badge">State 1</div>
+                <div class="node-icon">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                </div>
+                <h4 class="node-title">Working Directory</h4>
+                <p class="node-desc">Actual files on your disk. You edit, delete, and add code here. Files can be <em>Untracked</em> or <em>Modified</em>.</p>
+                <div class="node-tag">Unstaged Changes</div>
+              </div>
+
+              <!-- Transition 1 -->
+              <div class="diagram-arrow">
+                <div class="arrow-cmd">git add &lt;file&gt;</div>
+                <div class="arrow-line">
+                  <svg viewBox="0 0 50 16" width="50" height="16">
+                    <line x1="0" y1="8" x2="42" y2="8" stroke="currentColor" stroke-width="2" stroke-dasharray="4 2"></line>
+                    <polygon points="42,4 50,8 42,12" fill="currentColor"></polygon>
+                  </svg>
+                </div>
+                <div class="arrow-label">Stage for commit</div>
+              </div>
+
+              <!-- Zone 2: Staging Area -->
+              <div class="diagram-node active-node">
+                <div class="node-badge">State 2</div>
+                <div class="node-icon">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                  </svg>
+                </div>
+                <h4 class="node-title">Staging Area (Index)</h4>
+                <p class="node-desc">The preparation dock. A preview draft of the changes you specifically selected to be bundled into the next snapshot.</p>
+                <div class="node-tag staged">Staged & Ready</div>
+              </div>
+
+              <!-- Transition 2 -->
+              <div class="diagram-arrow">
+                <div class="arrow-cmd">git commit -m "..."</div>
+                <div class="arrow-line">
+                  <svg viewBox="0 0 50 16" width="50" height="16">
+                    <line x1="0" y1="8" x2="42" y2="8" stroke="currentColor" stroke-width="2"></line>
+                    <polygon points="42,4 50,8 42,12" fill="currentColor"></polygon>
+                  </svg>
+                </div>
+                <div class="arrow-label">Create snapshot</div>
+              </div>
+
+              <!-- Zone 3: Local Repository -->
+              <div class="diagram-node">
+                <div class="node-badge">State 3</div>
+                <div class="node-icon">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </div>
+                <h4 class="node-title">Local Repository (HEAD)</h4>
+                <p class="node-desc">The permanent database stored inside <code>.git</code>. Every commit is a cryptographic SHA-1/256 snapshot.</p>
+                <div class="node-tag committed">Committed History</div>
+              </div>
+
+              <!-- Transition 3 -->
+              <div class="diagram-arrow">
+                <div class="arrow-cmd">git push origin main</div>
+                <div class="arrow-line">
+                  <svg viewBox="0 0 50 16" width="50" height="16">
+                    <line x1="0" y1="8" x2="42" y2="8" stroke="currentColor" stroke-width="2" stroke-dasharray="2 2"></line>
+                    <polygon points="42,4 50,8 42,12" fill="currentColor"></polygon>
+                  </svg>
+                </div>
+                <div class="arrow-label">Sync to cloud</div>
+              </div>
+
+              <!-- Zone 4: Remote GitHub -->
+              <div class="diagram-node remote-node">
+                <div class="node-badge remote-badge">Remote</div>
+                <div class="node-icon">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                  </svg>
+                </div>
+                <h4 class="node-title">GitHub (Remote)</h4>
+                <p class="node-desc">The shared cloud repository accessible to your teammates, CI/CD runners, and hosting providers.</p>
+                <div class="node-tag cloud">Cloud Synchronized</div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: INSTALLATION AND CONFIGURATION -->
+      <section id="installation" class="guide-section">
+        <div class="section-header">
+          <div class="section-tag">Section 02</div>
+          <h2 class="section-title">Git Installation & Configuration</h2>
+          <p class="section-subtitle">Set up Git properly on your operating system and configure your developer identity.</p>
+        </div>
+
+        <!-- OS Selection Tabs -->
+        <div class="tabbed-container">
+          <div class="tab-buttons" role="tablist" aria-label="Operating System Selection">
+            <button class="tab-btn active" data-tab="windows-install" role="tab" aria-selected="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.901-1.752"/></svg>
+              Windows
+            </button>
+            <button class="tab-btn" data-tab="macos-install" role="tab" aria-selected="false">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.4c.64-.78 1.08-1.86.96-2.95-1 .04-2.16.66-2.83 1.44-.59.68-1.11 1.77-.97 2.83 1.12.09 2.2-.54 2.84-1.32z"/></svg>
+              macOS
+            </button>
+            <button class="tab-btn" data-tab="linux-install" role="tab" aria-selected="false">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12.003 0c-2.348 0-4.326 1.83-4.326 4.331 0 1.218.423 2.302 1.137 3.109-1.383 1.196-2.428 2.894-2.428 5.253 0 1.983.847 3.656 2.08 4.771-1.037.76-2.062 1.835-2.062 3.264 0 1.888 1.782 3.272 5.599 3.272s5.599-1.384 5.599-3.272c0-1.429-1.025-2.504-2.062-3.264 1.233-1.115 2.08-2.788 2.08-4.771 0-2.359-1.045-4.057-2.428-5.253.714-.807 1.137-1.891 1.137-3.109C16.329 1.83 14.351 0 12.003 0z"/></svg>
+              Linux
+            </button>
+          </div>
+
+          <!-- Windows Tab Content -->
+          <div class="tab-content active" id="windows-install">
+            <div class="step-guide">
+              <div class="guide-step">
+                <span class="step-badge">1</span>
+                <div>
+                  <strong>Download Git for Windows:</strong>
+                  <p class="text-secondary">Download the standalone installer from the official website <a href="https://git-scm.com/download/win" target="_blank" rel="noopener" class="inline-link">git-scm.com/download/win</a>. This includes <em>Git Bash</em>, a complete Unix emulation shell.</p>
+                </div>
+              </div>
+              <div class="guide-step">
+                <span class="step-badge">2</span>
+                <div>
+                  <strong>Recommended Installer Options:</strong>
+                  <p class="text-secondary">During setup, accept recommended options, specifically: default branch name set to <code>main</code>, and choose "Git from the command line and also from 3rd-party software".</p>
+                </div>
+              </div>
+              <div class="guide-step">
+                <span class="step-badge">3</span>
+                <div>
+                  <strong>Verify in PowerShell or Command Prompt:</strong>
+                  <div class="code-block-wrapper">
+                    <div class="code-header">
+                      <span class="code-lang">powershell</span>
+                      <button class="copy-btn" data-code="git --version" aria-label="Copy code">
+                        <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span class="btn-text">Copy</span>
+                      </button>
+                    </div>
+                    <pre><code><span class="prompt">$</span> git --version
+<span class="output">git version 2.44.0.windows.1</span></code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- macOS Tab Content -->
+          <div class="tab-content" id="macos-install">
+            <div class="step-guide">
+              <div class="guide-step">
+                <span class="step-badge">Option A</span>
+                <div>
+                  <strong>Install via Homebrew (Recommended):</strong>
+                  <div class="code-block-wrapper">
+                    <div class="code-header">
+                      <span class="code-lang">zsh</span>
+                      <button class="copy-btn" data-code="brew install git" aria-label="Copy code">
+                        <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span class="btn-text">Copy</span>
+                      </button>
+                    </div>
+                    <pre><code><span class="prompt">$</span> brew install git</code></pre>
+                  </div>
+                </div>
+              </div>
+              <div class="guide-step">
+                <span class="step-badge">Option B</span>
+                <div>
+                  <strong>Install via Apple Xcode Command Line Tools:</strong>
+                  <div class="code-block-wrapper">
+                    <div class="code-header">
+                      <span class="code-lang">zsh</span>
+                      <button class="copy-btn" data-code="xcode-select --install" aria-label="Copy code">
+                        <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span class="btn-text">Copy</span>
+                      </button>
+                    </div>
+                    <pre><code><span class="prompt">$</span> xcode-select --install</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Linux Tab Content -->
+          <div class="tab-content" id="linux-install">
+            <div class="step-guide">
+              <div class="guide-step">
+                <span class="step-badge">Debian / Ubuntu</span>
+                <div>
+                  <div class="code-block-wrapper">
+                    <div class="code-header">
+                      <span class="code-lang">bash</span>
+                      <button class="copy-btn" data-code="sudo apt update && sudo apt install git -y" aria-label="Copy code">
+                        <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span class="btn-text">Copy</span>
+                      </button>
+                    </div>
+                    <pre><code><span class="prompt">$</span> sudo apt update && sudo apt install git -y</code></pre>
+                  </div>
+                </div>
+              </div>
+              <div class="guide-step">
+                <span class="step-badge">Fedora / RHEL</span>
+                <div>
+                  <div class="code-block-wrapper">
+                    <div class="code-header">
+                      <span class="code-lang">bash</span>
+                      <button class="copy-btn" data-code="sudo dnf install git -y" aria-label="Copy code">
+                        <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        <span class="btn-text">Copy</span>
+                      </button>
+                    </div>
+                    <pre><code><span class="prompt">$</span> sudo dnf install git -y</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Essential Configuration Block -->
+        <div class="content-block config-block">
+          <h3 class="subsection-title">
+            <span class="title-decor"></span> Essential First-Time Global Configuration
+          </h3>
+          <p class="text-secondary">
+            Git attaches your name and email to every commit you produce. This identity is permanently baked into the history. Run these commands once per machine:
+          </p>
+
+          <div class="code-cards-grid">
+            <!-- Username config -->
+            <div class="code-card">
+              <div class="code-card-header">
+                <span class="card-title-sm">1. Set Your Author Name</span>
+                <span class="badge">Required</span>
+              </div>
+              <p class="text-muted-xs">This will appear on your commits in GitHub's commit log.</p>
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code='git config --global user.name "Your Name"' aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git config --global user.name <span class="string">"Your Name"</span></code></pre>
+              </div>
+            </div>
+
+            <!-- Email config -->
+            <div class="code-card">
+              <div class="code-card-header">
+                <span class="card-title-sm">2. Set Your GitHub Email</span>
+                <span class="badge">Required</span>
+              </div>
+              <p class="text-muted-xs">Must match the email address associated with your GitHub account to link commit graphs.</p>
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code='git config --global user.email "your.email@example.com"' aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git config --global user.email <span class="string">"your.email@example.com"</span></code></pre>
+              </div>
+            </div>
+
+            <!-- Default Branch config -->
+            <div class="code-card">
+              <div class="code-card-header">
+                <span class="card-title-sm">3. Set Default Branch to 'main'</span>
+                <span class="badge badge-subtle">Recommended</span>
+              </div>
+              <p class="text-muted-xs">Aligns your local default branch name with modern GitHub industry standards.</p>
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git config --global init.defaultBranch main" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git config --global init.defaultBranch main</code></pre>
+              </div>
+            </div>
+
+            <!-- Verify config -->
+            <div class="code-card">
+              <div class="code-card-header">
+                <span class="card-title-sm">4. Inspect Your Active Config</span>
+                <span class="badge badge-subtle">Verification</span>
+              </div>
+              <p class="text-muted-xs">Inspect all active keys and file origins (system, global, local).</p>
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git config --list --show-origin" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git config --list --show-origin</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: DEEP DIVE INTO 11 CORE COMMANDS -->
+      <section id="commands" class="guide-section">
+        <div class="section-header">
+          <div class="section-tag">Section 03</div>
+          <h2 class="section-title">The 11 Core Git Commands</h2>
+          <p class="section-subtitle">Every command you will use in daily professional engineering. Filter by name or task.</p>
+        </div>
+
+        <!-- Command Filter & Quick Category Bar -->
+        <div class="filter-controls-container">
+          <div class="filter-search-box">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="command-filter-input" placeholder="Filter commands (e.g., commit, branch, sync...)" aria-label="Filter commands">
+          </div>
+          <div class="category-pills" id="category-pills">
+            <button class="pill-btn active" data-category="all">All (11)</button>
+            <button class="pill-btn" data-category="setup">Setup & Start</button>
+            <button class="pill-btn" data-category="workflow">Daily Workflow</button>
+            <button class="pill-btn" data-category="branching">Branching</button>
+            <button class="pill-btn" data-category="remote">Remote & GitHub</button>
+          </div>
+        </div>
+
+        <!-- 11 Command Cards Detailed Grid -->
+        <div class="commands-grid" id="commands-list">
+
+          <!-- 1. GIT INIT -->
+          <article class="command-card" id="cmd-init" data-category="setup" data-keywords="init initialize repository start new repo">
+            <div class="command-card-header">
+              <div class="cmd-title-group">
+                <span class="cmd-number">01</span>
+                <h3 class="cmd-name">git init</h3>
+                <span class="cmd-badge">Setup</span>
+              </div>
+              <p class="cmd-summary">Initializes a new, empty Git repository in the current folder or creates the metadata structure.</p>
+            </div>
+            
+            <div class="command-card-body">
+              <div class="command-explanation">
+                <p>When you run <code>git init</code>, Git creates a hidden directory named <code>.git</code>. This folder contains all the database objects, staging index, commit trees, and configuration files. Do not delete or manually alter <code>.git</code>.</p>
+              </div>
+
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git init" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git init
+<span class="output">Initialized empty Git repository in /path/to/my-project/.git/</span></code></pre>
+              </div>
+
+              <div class="flags-table-wrapper">
+                <table class="flags-table">
+                  <thead>
+                    <tr><th>Syntax / Variation</th><th>Description</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>git init</code></td><td>Initializes the current working directory.</td></tr>
+                    <tr><td><code>git init &lt;project-name&gt;</code></td><td>Creates a new folder and initializes Git inside it.</td></tr>
+                    <tr><td><code>git init -b main</code></td><td>Initializes the repository with <code>main</code> as initial branch.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pro-tip">
+                <strong>Pro-Tip:</strong> Running <code>git init</code> in an already initialized directory is safe; it won't overwrite existing history or files.
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. GIT ADD -->
+          <article class="command-card" id="cmd-add" data-category="workflow" data-keywords="add stage staging track files index">
+            <div class="command-card-header">
+              <div class="cmd-title-group">
+                <span class="cmd-number">02</span>
+                <h3 class="cmd-name">git add</h3>
+                <span class="cmd-badge">Staging</span>
+              </div>
+              <p class="cmd-summary">Moves changes from your Working Directory to the Staging Area (the Index).</p>
+            </div>
+            
+            <div class="command-card-body">
+              <div class="command-explanation">
+                <p>Git doesn't automatically snapshot every edited file. <code>git add</code> lets you curate your next commit by explicitly choosing which file modifications belong together in the snapshot.</p>
+              </div>
+
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git add ." aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="comment"># Stage a single specific file:</span>
+<span class="prompt">$</span> git add index.html
+
+<span class="comment"># Stage ALL changes in the current repository:</span>
+<span class="prompt">$</span> git add .</code></pre>
+              </div>
+
+              <div class="flags-table-wrapper">
+                <table class="flags-table">
+                  <thead>
+                    <tr><th>Syntax / Variation</th><th>Description</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>git add &lt;file&gt;</code></td><td>Stages the specific file or directory.</td></tr>
+                    <tr><td><code>git add .</code></td><td>Stages all modified, new, and deleted files in current tree.</td></tr>
+                    <tr><td><code>git add -p</code></td><td>Interactive patch mode: review and stage line-by-line chunks (hunks).</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pro-tip">
+                <strong>Pro-Tip:</strong> Always configure a <code>.gitignore</code> file before running <code>git add .</code> to avoid staging secrets, <code>node_modules/</code>, or system junk.
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. GIT COMMIT -->
+          <article class="command-card" id="cmd-commit" data-category="workflow" data-keywords="commit snapshot save message history amend">
+            <div class="command-card-header">
+              <div class="cmd-title-group">
+                <span class="cmd-number">03</span>
+                <h3 class="cmd-name">git commit</h3>
+                <span class="cmd-badge">History</span>
+              </div>
+              <p class="cmd-summary">Permanently records the staged changes as a snapshot in the repository's history.</p>
+            </div>
+            
+            <div class="command-card-body">
+              <div class="command-explanation">
+                <p>Every commit produces a unique cryptographic SHA hash, an author timestamp, and a commit message explaining <em>why</em> the change was introduced. Commits are atomic units of change.</p>
+              </div>
+
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code='git commit -m "feat: add user navigation bar"' aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git commit -m <span class="string">"feat: add user navigation bar"</span>
+<span class="output">[main a7f3b89] feat: add user navigation bar
+ 2 files changed, 48 insertions(+), 3 deletions(-)</span></code></pre>
+              </div>
+
+              <div class="flags-table-wrapper">
+                <table class="flags-table">
+                  <thead>
+                    <tr><th>Syntax / Variation</th><th>Description</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>git commit -m "&lt;msg&gt;"</code></td><td>Creates a commit with an inline commit message.</td></tr>
+                    <tr><td><code>git commit -am "&lt;msg&gt;"</code></td><td>Stages all modified tracked files and commits in one step.</td></tr>
+                    <tr><td><code>git commit --amend</code></td><td>Appends new changes or modifies the message of the most recent commit.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pro-tip">
+                <strong>Best Practice:</strong> Use conventional commit prefixes: <code>feat:</code>, <code>fix:</code>, <code>docs:</code>, <code>refactor:</code>, <code>chore:</code>. Keep first lines under 72 characters.
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. GIT STATUS -->
+          <article class="command-card" id="cmd-status" data-category="workflow" data-keywords="status check state working tree unstaged">
+            <div class="command-card-header">
+              <div class="cmd-title-group">
+                <span class="cmd-number">04</span>
+                <h3 class="cmd-name">git status</h3>
+                <span class="cmd-badge">Inspection</span>
+              </div>
+              <p class="cmd-summary">Displays the working tree status: untracked, modified, and staged files.</p>
+            </div>
+            
+            <div class="command-card-body">
+              <div class="command-explanation">
+                <p><code>git status</code> is your primary compass in Git. It informs you of your current branch, whether your branch is ahead/behind remote, and exactly which files need to be staged or committed.</p>
+              </div>
+
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git status" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git status
+<span class="output">On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   index.html
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	style.css</span></code></pre>
+              </div>
+
+              <div class="flags-table-wrapper">
+                <table class="flags-table">
+                  <thead>
+                    <tr><th>Syntax / Variation</th><th>Description</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>git status</code></td><td>Full verbose status report with helpful tips.</td></tr>
+                    <tr><td><code>git status -s</code></td><td>Short, concise format (<code>M</code>=modified, <code>??</code>=untracked).</td></tr>
+                    <tr><td><code>git status -sb</code></td><td>Short format including current branch tracking info.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pro-tip">
+                <strong>Pro-Tip:</strong> Whenever you feel lost or uncertain before a push or rebase, run <code>git status</code> first!
+              </div>
+            </div>
+          </article>
+
+          <!-- 5. GIT LOG -->
+          <article class="command-card" id="cmd-log" data-category="workflow" data-keywords="log history commits graph oneline view">
+            <div class="command-card-header">
+              <div class="cmd-title-group">
+                <span class="cmd-number">05</span>
+                <h3 class="cmd-name">git log</h3>
+                <span class="cmd-badge">Inspection</span>
+              </div>
+              <p class="cmd-summary">Lists commit history in reverse chronological order with authors, dates, and messages.</p>
+            </div>
+            
+            <div class="command-card-body">
+              <div class="command-explanation">
+                <p>Examine the lineage of your project. You can filter by author, date, message text, or display the branch graph visually right in your terminal.</p>
+              </div>
+
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git log --oneline --graph --all" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git log --oneline --graph --all
+<span class="output">* e81042c (HEAD -> main, origin/main) feat: deploy to github pages
+* a7f3b89 feat: add user navigation bar
+* 19280d4 fix: correct viewport meta tag
+* 41d98a0 Initial commit</span></code></pre>
+              </div>
+
+              <div class="flags-table-wrapper">
+                <table class="flags-table">
+                  <thead>
+                    <tr><th>Syntax / Variation</th><th>Description</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>git log</code></td><td>Full details (SHA, author, date, full message).</td></tr>
+                    <tr><td><code>git log --oneline</code></td><td>Condensed one-line summary for rapid reading.</td></tr>
+                    <tr><td><code>git log -n 5</code></td><td>Limits output to the 5 most recent commits.</td></tr>
+                    <tr><td><code>git log --graph --all</code></td><td>Draws an ASCII branch topology tree.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pro-tip">
+                <strong>Pro-Tip:</strong> Press <kbd>q</kbd> to exit the paginated log view if your terminal opens in <code>less</code>.
+              </div>
+            </div>
+          </article>
+
+          <!-- 6. GIT BRANCH -->
+          <article class="command-card" id="cmd-branch" data-category="branching" data-keywords="branch create list delete rename feature-branch">
+            <div class="command-card-header">
+              <div class="cmd-title-group">
+                <span class="cmd-number">06</span>
+                <h3 class="cmd-name">git branch</h3>
+                <span class="cmd-badge">Branching</span>
+              </div>
+              <p class="cmd-summary">Lists, creates, renames, or deletes branches in your repository.</p>
+            </div>
+            
+            <div class="command-card-body">
+              <div class="command-explanation">
+                <p>A branch in Git is simply a lightweight movable pointer to a commit. Creating branches is virtually instantaneous and uses almost zero disk space, encouraging feature-driven workflows.</p>
+              </div>
+
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git branch -M main" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="comment"># List all local branches (* marks current branch):</span>
+<span class="prompt">$</span> git branch
+
+<span class="comment"># Force-rename current branch to 'main':</span>
+<span class="prompt">$</span> git branch -M main</code></pre>
+              </div>
+
+              <div class="flags-table-wrapper">
+                <table class="flags-table">
+                  <thead>
+                    <tr><th>Syntax / Variation</th><th>Description</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>git branch</code></td><td>Lists all local branches.</td></tr>
+                    <tr><td><code>git branch -a</code></td><td>Lists both local and remote-tracking branches.</td></tr>
+                    <tr><td><code>git branch &lt;name&gt;</code></td><td>Creates a new branch without switching to it.</td></tr>
+                    <tr><td><code>git branch -d &lt;name&gt;</code></td><td>Safely deletes a merged branch.</td></tr>
+                    <tr><td><code>git branch -D &lt;name&gt;</code></td><td>Force-deletes a branch even if unmerged.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pro-tip">
+                <strong>Pro-Tip:</strong> Never work directly on <code>main</code> in a team. Always create a descriptive branch like <code>feature/login-form</code> or <code>fix/header-overflow</code>.
+              </div>
+            </div>
+          </article>
+
+          <!-- 7. GIT SWITCH -->
+          <article class="command-card" id="cmd-switch" data-category="branching" data-keywords="switch checkout change branch navigate">
+            <div class="command-card-header">
+              <div class="cmd-title-group">
+                <span class="cmd-number">07</span>
+                <h3 class="cmd-name">git switch</h3>
+                <span class="cmd-badge">Branching</span>
+              </div>
+              <p class="cmd-summary">Switches the active branch and updates the files in the working directory.</p>
+            </div>
+            
+            <div class="command-card-body">
+              <div class="command-explanation">
+                <p>Introduced in Git 2.23, <code>git switch</code> was created to split the confusing, overloaded duties of the older <code>git checkout</code> command. <code>switch</code> is dedicated solely to navigating branches.</p>
+              </div>
+
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git switch -c feature/navbar" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="comment"># Switch to an existing branch:</span>
+<span class="prompt">$</span> git switch main
+
+<span class="comment"># Create and immediately switch to a new branch:</span>
+<span class="prompt">$</span> git switch -c feature/navbar
+<span class="output">Switched to a new branch 'feature/navbar'</span></code></pre>
+              </div>
+
+              <div class="flags-table-wrapper">
+                <table class="flags-table">
+                  <thead>
+                    <tr><th>Syntax / Variation</th><th>Description</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>git switch &lt;branch&gt;</code></td><td>Switches to an existing branch.</td></tr>
+                    <tr><td><code>git switch -c &lt;branch&gt;</code></td><td>Creates new branch and switches to it (equivalent to older <code>checkout -b</code>).</td></tr>
+                    <tr><td><code>git switch -</code></td><td>Switches back to the previous branch you were on.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pro-tip">
+                <strong>Modern Convention:</strong> Prefer <code>git switch</code> over <code>git checkout</code> for branch changes, and use <code>git restore</code> to discard uncommitted file modifications.
+              </div>
+            </div>
+          </article>
+
+          <!-- 8. GIT REMOTE -->
+          <article class="command-card" id="cmd-remote" data-category="remote" data-keywords="remote origin link github url connect upstream">
+            <div class="command-card-header">
+              <div class="cmd-title-group">
+                <span class="cmd-number">08</span>
+                <h3 class="cmd-name">git remote</h3>
+                <span class="cmd-badge">Remote</span>
+              </div>
+              <p class="cmd-summary">Manages connections to remote repositories like GitHub, GitLab, or Bitbucket.</p>
+            </div>
+            
+            <div class="command-card-body">
+              <div class="command-explanation">
+                <p>A "remote" is an alias (typically named <code>origin</code>) pointing to the URL of the repository hosted in the cloud. It allows you to push code to or pull code from the cloud.</p>
+              </div>
+
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git remote add origin https://github.com/username/my-project.git" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="comment"># Add GitHub as the 'origin' remote:</span>
+<span class="prompt">$</span> git remote add origin https://github.com/username/my-project.git
+
+<span class="comment"># Verify existing remotes and their fetch/push URLs:</span>
+<span class="prompt">$</span> git remote -v
+<span class="output">origin  https://github.com/username/my-project.git (fetch)
+origin  https://github.com/username/my-project.git (push)</span></code></pre>
+              </div>
+
+              <div class="flags-table-wrapper">
+                <table class="flags-table">
+                  <thead>
+                    <tr><th>Syntax / Variation</th><th>Description</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>git remote -v</code></td><td>Lists all configured remotes with their fetch & push URLs.</td></tr>
+                    <tr><td><code>git remote add &lt;name&gt; &lt;url&gt;</code></td><td>Registers a new remote repository alias.</td></tr>
+                    <tr><td><code>git remote set-url &lt;name&gt; &lt;url&gt;</code></td><td>Updates the URL for an existing remote (e.g. HTTPS to SSH).</td></tr>
+                    <tr><td><code>git remote remove &lt;name&gt;</code></td><td>Deletes a remote connection.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pro-tip">
+                <strong>Pro-Tip:</strong> The word <code>origin</code> is not magic; it's just the default Git convention for your primary remote repository.
+              </div>
+            </div>
+          </article>
+
+          <!-- 9. GIT PUSH -->
+          <article class="command-card" id="cmd-push" data-category="remote" data-keywords="push upload send origin upstream github main">
+            <div class="command-card-header">
+              <div class="cmd-title-group">
+                <span class="cmd-number">09</span>
+                <h3 class="cmd-name">git push</h3>
+                <span class="cmd-badge">Remote</span>
+              </div>
+              <p class="cmd-summary">Transfers commits from your local repository to the remote repository on GitHub.</p>
+            </div>
+            
+            <div class="command-card-body">
+              <div class="command-explanation">
+                <p>When you push, Git uploads all commits on your current branch that do not yet exist on the remote branch, updating the remote's HEAD pointer.</p>
+              </div>
+
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git push -u origin main" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="comment"># First push: set upstream tracking:</span>
+<span class="prompt">$</span> git push -u origin main
+
+<span class="comment"># Subsequent pushes on the same branch:</span>
+<span class="prompt">$</span> git push</code></pre>
+              </div>
+
+              <div class="flags-table-wrapper">
+                <table class="flags-table">
+                  <thead>
+                    <tr><th>Syntax / Variation</th><th>Description</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>git push -u origin &lt;branch&gt;</code></td><td>Pushes and sets upstream link so future <code>git push</code> or <code>git pull</code> need no arguments.</td></tr>
+                    <tr><td><code>git push</code></td><td>Pushes current branch to its configured upstream tracking branch.</td></tr>
+                    <tr><td><code>git push --force-with-lease</code></td><td>Safely overwrites remote history only if no one else has pushed in the meantime.</td></tr>
+                    <tr><td><code>git push origin --delete &lt;branch&gt;</code></td><td>Deletes a branch from the remote GitHub server.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pro-tip">
+                <strong>Warning:</strong> Avoid <code>git push --force</code> on shared team branches like <code>main</code>, as it destroys team commits.
+              </div>
+            </div>
+          </article>
+
+          <!-- 10. GIT PULL -->
+          <article class="command-card" id="cmd-pull" data-category="remote" data-keywords="pull fetch merge sync download update">
+            <div class="command-card-header">
+              <div class="cmd-title-group">
+                <span class="cmd-number">10</span>
+                <h3 class="cmd-name">git pull</h3>
+                <span class="cmd-badge">Remote</span>
+              </div>
+              <p class="cmd-summary">Fetches changes from the remote repository and immediately integrates them into your current branch.</p>
+            </div>
+            
+            <div class="command-card-body">
+              <div class="command-explanation">
+                <p>Under the hood, <code>git pull</code> executes two commands automatically: <code>git fetch</code> (downloads objects from remote) followed by <code>git merge</code> (combines remote branch into your local branch).</p>
+              </div>
+
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git pull origin main" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git pull origin main
+<span class="output">Updating a7f3b89..e81042c
+Fast-forward
+ style.css | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)</span></code></pre>
+              </div>
+
+              <div class="flags-table-wrapper">
+                <table class="flags-table">
+                  <thead>
+                    <tr><th>Syntax / Variation</th><th>Description</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>git pull</code></td><td>Pulls from the tracked upstream remote branch.</td></tr>
+                    <tr><td><code>git pull origin &lt;branch&gt;</code></td><td>Pulls specific branch from specified remote.</td></tr>
+                    <tr><td><code>git pull --rebase</code></td><td>Reapplies your local unpushed commits on top of incoming remote commits, avoiding noisy merge commits.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pro-tip">
+                <strong>Pro-Tip:</strong> Always run <code>git pull</code> before starting a new feature to ensure your base code is fully updated with the team.
+              </div>
+            </div>
+          </article>
+
+          <!-- 11. GIT CLONE -->
+          <article class="command-card" id="cmd-clone" data-category="setup" data-keywords="clone copy download repo github url checkout">
+            <div class="command-card-header">
+              <div class="cmd-title-group">
+                <span class="cmd-number">11</span>
+                <h3 class="cmd-name">git clone</h3>
+                <span class="cmd-badge">Setup</span>
+              </div>
+              <p class="cmd-summary">Downloads an existing remote repository onto your local computer, including full history and branches.</p>
+            </div>
+            
+            <div class="command-card-body">
+              <div class="command-explanation">
+                <p><code>git clone</code> performs three actions automatically: it creates a new folder, initializes a Git repository, creates a remote named <code>origin</code> pointing to that URL, and checks out the default branch.</p>
+              </div>
+
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git clone https://github.com/facebook/react.git" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git clone https://github.com/facebook/react.git
+<span class="output">Cloning into 'react'...
+remote: Enumerating objects: 248231, done.
+remote: Counting objects: 100% (231/231), done.
+Receiving objects: 100% (248231/248231), 143.12 MiB | 18.20 MiB/s, done.</span></code></pre>
+              </div>
+
+              <div class="flags-table-wrapper">
+                <table class="flags-table">
+                  <thead>
+                    <tr><th>Syntax / Variation</th><th>Description</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>git clone &lt;url&gt;</code></td><td>Clones into a folder named after the repository.</td></tr>
+                    <tr><td><code>git clone &lt;url&gt; &lt;folder-name&gt;</code></td><td>Clones into a custom named directory.</td></tr>
+                    <tr><td><code>git clone --depth 1 &lt;url&gt;</code></td><td>Shallow clone: downloads only the most recent commit (fast for large repos).</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pro-tip">
+                <strong>Pro-Tip:</strong> You don't need to run <code>git init</code> when you use <code>git clone</code>; the repository is already initialized.
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- SECTION 4: STEP-BY-STEP PUSHING LOCAL PROJECT TO GITHUB -->
+      <section id="push-guide" class="guide-section">
+        <div class="section-header">
+          <div class="section-tag">Section 04</div>
+          <h2 class="section-title">Step-by-Step: Push Local Project to GitHub</h2>
+          <p class="section-subtitle">The definitive, error-free walkthrough for publishing an existing project folder to a fresh GitHub repo.</p>
+        </div>
+
+        <div class="push-walkthrough-container">
+          
+          <!-- Stepper item 1 -->
+          <div class="stepper-item">
+            <div class="stepper-counter">1</div>
+            <div class="stepper-content">
+              <h3 class="stepper-title">Create a New Empty Repository on GitHub</h3>
+              <p class="stepper-text">
+                Log into your GitHub account and click the <strong>+</strong> button in the top right, then select <strong>New repository</strong> (or navigate to <a href="https://github.com/new" target="_blank" rel="noopener" class="inline-link">github.com/new</a>).
+              </p>
+              <div class="callout-box warning-callout">
+                <div class="callout-icon">⚠️</div>
+                <div class="callout-text">
+                  <strong>Crucial Beginner Rule:</strong> Do <em>NOT</em> check "Add a README file", ".gitignore", or "license" here. Leave the repository completely blank. If you add these on GitHub, your remote and local will have conflicting commit histories, causing a <code>rejected - non-fast-forward</code> error on your first push!
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stepper item 2 -->
+          <div class="stepper-item">
+            <div class="stepper-counter">2</div>
+            <div class="stepper-content">
+              <h3 class="stepper-title">Open Terminal in Your Local Project Directory</h3>
+              <p class="stepper-text">
+                Ensure your terminal (PowerShell, Command Prompt, Git Bash, or macOS Terminal) is located directly inside the root folder of your project:
+              </p>
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="cd /path/to/my-local-project" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> cd /path/to/my-local-project</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stepper item 3 -->
+          <div class="stepper-item">
+            <div class="stepper-counter">3</div>
+            <div class="stepper-content">
+              <h3 class="stepper-title">Initialize Git Repository</h3>
+              <p class="stepper-text">Turn your regular folder into an active Git tracking repository:</p>
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git init" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git init</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stepper item 4 -->
+          <div class="stepper-item">
+            <div class="stepper-counter">4</div>
+            <div class="stepper-content">
+              <h3 class="stepper-title">Stage All Files and Make Initial Commit</h3>
+              <p class="stepper-text">Select every file in your project directory and commit the initial snapshot:</p>
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code='git add . && git commit -m "feat: initial project commit"' aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="comment"># Stage all project files:</span>
+<span class="prompt">$</span> git add .
+
+<span class="comment"># Record your first commit:</span>
+<span class="prompt">$</span> git commit -m <span class="string">"feat: initial project commit"</span></code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stepper item 5 -->
+          <div class="stepper-item">
+            <div class="stepper-counter">5</div>
+            <div class="stepper-content">
+              <h3 class="stepper-title">Rename Branch to 'main'</h3>
+              <p class="stepper-text">Older Git versions default to <code>master</code>. Rename it to <code>main</code> to match GitHub's modern default:</p>
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git branch -M main" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git branch -M main</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stepper item 6 -->
+          <div class="stepper-item">
+            <div class="stepper-counter">6</div>
+            <div class="stepper-content">
+              <h3 class="stepper-title">Link Local Repository to Your GitHub Remote</h3>
+              <p class="stepper-text">Copy the HTTPS repository URL from your GitHub repository page and register it under the name <code>origin</code>:</p>
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git remote add origin https://github.com/<YOUR-USERNAME>/<YOUR-REPO-NAME>.git" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git remote add origin https://github.com/<span class="string">&lt;YOUR-USERNAME&gt;</span>/<span class="string">&lt;YOUR-REPO-NAME&gt;</span>.git</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stepper item 7 -->
+          <div class="stepper-item">
+            <div class="stepper-counter">7</div>
+            <div class="stepper-content">
+              <h3 class="stepper-title">Push to GitHub with Upstream Tracking</h3>
+              <p class="stepper-text">The <code>-u</code> flag links your local <code>main</code> branch to <code>origin/main</code> on GitHub for all future pushes:</p>
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git push -u origin main" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git push -u origin main
+<span class="output">Enumerating objects: 15, done.
+Counting objects: 100% (15/15), done.
+Writing objects: 100% (15/15), 18.42 KiB | 3.68 MiB/s, done.
+To https://github.com/username/my-project.git
+ * [new branch]      main -> main
+branch 'main' set up to track 'origin/main'.</span></code></pre>
+              </div>
+
+              <!-- All-in-one Quick Script -->
+              <div class="all-in-one-box">
+                <div class="aio-header">
+                  <span class="aio-title">⚡ Copy All Commands in One Chain:</span>
+                  <button class="copy-btn" data-code='git init
+git add .
+git commit -m "feat: initial commit"
+git branch -M main
+git remote add origin https://github.com/USERNAME/REPO.git
+git push -u origin main' aria-label="Copy entire chain">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy Full Script</span>
+                  </button>
+                </div>
+                <pre><code>git init
+git add .
+git commit -m "feat: initial commit"
+git branch -M main
+git remote add origin https://github.com/USERNAME/REPO.git
+git push -u origin main</code></pre>
+              </div>
+
+              <!-- Auth Notice -->
+              <div class="callout-box info-callout">
+                <div class="callout-icon">💡</div>
+                <div class="callout-text">
+                  <strong>GitHub Password Authentication Note:</strong> GitHub deprecated regular account password authentication over HTTPS in 2021. When prompted for password in terminal, either use a <strong>GitHub Personal Access Token (classic)</strong> with <code>repo</code> scope, or install the official <strong>GitHub CLI</strong> and authenticate once using <code>gh auth login</code>.
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECTION 5: GITHUB PAGES DEPLOYMENT -->
+      <section id="github-pages" class="guide-section">
+        <div class="section-header">
+          <div class="section-tag">Section 05</div>
+          <h2 class="section-title">GitHub Pages Deployment Guide</h2>
+          <p class="section-subtitle">Host your responsive website live on the internet directly from your GitHub repository for free.</p>
+        </div>
+
+        <div class="pages-guide-container">
+          <!-- Overview Cards -->
+          <div class="pages-overview-grid">
+            <div class="glass-card">
+              <h3 class="card-title-sm">What is GitHub Pages?</h3>
+              <p class="text-secondary text-sm">
+                A static site hosting service taking HTML, CSS, and JavaScript files directly from a repository on GitHub, optionally running them through a build process, and publishing a website.
+              </p>
+              <div class="url-preview">
+                <span class="url-label">Live URL Format:</span>
+                <code>https://&lt;username&gt;.github.io/&lt;repo-name&gt;/</code>
+              </div>
+            </div>
+
+            <div class="glass-card">
+              <h3 class="card-title-sm">Essential Prerequisites</h3>
+              <ul class="check-bullets text-sm">
+                <li>Your entry point must be named <strong>index.html</strong> in the repository root (or <code>/docs</code>).</li>
+                <li>Assets (CSS, JS, images) must use <strong>relative paths</strong> (e.g., <code>./style.css</code> or <code>style.css</code>, not <code>/style.css</code>).</li>
+                <li>The repository can be Public (free on all plans) or Private (GitHub Pro/Team).</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Step by Step Deployment Flow -->
+          <div class="deployment-steps-list">
+            
+            <div class="dep-step-card">
+              <div class="dep-num">01</div>
+              <div class="dep-details">
+                <h4 class="dep-step-title">Ensure Project is Pushed to GitHub</h4>
+                <p class="text-secondary">Verify that your repository on GitHub contains <code>index.html</code>, <code>style.css</code>, and <code>script.js</code> at the top root directory.</p>
+              </div>
+            </div>
+
+            <div class="dep-step-card">
+              <div class="dep-num">02</div>
+              <div class="dep-details">
+                <h4 class="dep-step-title">Navigate to Repository Settings</h4>
+                <p class="text-secondary">On your GitHub repository page, click the <strong>Settings</strong> tab located in the top navigation bar (far right tab next to Insights).</p>
+              </div>
+            </div>
+
+            <div class="dep-step-card">
+              <div class="dep-num">03</div>
+              <div class="dep-details">
+                <h4 class="dep-step-title">Open the Pages Section</h4>
+                <p class="text-secondary">In the left sidebar menu under the "Code and automation" group, click on <strong>Pages</strong>.</p>
+              </div>
+            </div>
+
+            <div class="dep-step-card">
+              <div class="dep-num">04</div>
+              <div class="dep-details">
+                <h4 class="dep-step-title">Configure Branch & Source</h4>
+                <p class="text-secondary">Under <strong>Build and deployment</strong> &gt; <strong>Source</strong>:</p>
+                <ul class="feature-bullets text-sm mt-2">
+                  <li>Leave source as <strong>Deploy from a branch</strong></li>
+                  <li>Under <strong>Branch</strong>, select <code>main</code> from the dropdown</li>
+                  <li>Select <code>/ (root)</code> from the folder dropdown</li>
+                  <li>Click the blue <strong>Save</strong> button</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="dep-step-card">
+              <div class="dep-num">05</div>
+              <div class="dep-details">
+                <h4 class="dep-step-title">Monitor Deployment & Visit Your Live Site</h4>
+                <p class="text-secondary">
+                  GitHub will automatically trigger a GitHub Actions workflow. Refresh the page after 60-90 seconds. You will see a banner displaying:
+                </p>
+                <div class="success-banner">
+                  <span class="success-dot"></span>
+                  <span>"Your site is live at <strong>https://yourname.github.io/your-project/</strong>"</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Common Pitfalls & Solutions -->
+          <div class="content-block">
+            <h3 class="subsection-title">
+              <span class="title-decor"></span> Troubleshooting Common GitHub Pages Pitfalls
+            </h3>
+            
+            <div class="troubleshoot-grid">
+              <div class="troubleshoot-card">
+                <div class="problem-tag">Issue: 404 Site Not Found</div>
+                <p class="problem-cause">File is named <code>Index.html</code> or <code>home.html</code> instead of lowercase <code>index.html</code>. GitHub Pages server is Linux-based and strictly case-sensitive.</p>
+                <div class="solution-text"><strong>Fix:</strong> Rename file to exactly <code>index.html</code>, commit, and push.</div>
+              </div>
+
+              <div class="troubleshoot-card">
+                <div class="problem-tag">Issue: CSS/JS Fails to Load (Broken Styling)</div>
+                <p class="problem-cause">Using absolute root paths like <code>&lt;link href="/style.css"&gt;</code> causes the browser to look at <code>username.github.io/style.css</code> instead of <code>username.github.io/repo/style.css</code>.</p>
+                <div class="solution-text"><strong>Fix:</strong> Change links to relative paths: <code>href="./style.css"</code> or <code>href="style.css"</code>.</div>
+              </div>
+
+              <div class="troubleshoot-card">
+                <div class="problem-tag">Issue: Changes Don't Appear Immediately</div>
+                <p class="problem-cause">GitHub Pages build workflows take between 30 and 120 seconds to complete, and browsers aggressively cache CSS files.</p>
+                <div class="solution-text"><strong>Fix:</strong> Hard refresh your browser using <kbd>Ctrl</kbd> + <kbd>F5</kbd> or <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECTION 6: INTERACTIVE GIT LEARNING CHECKLIST -->
+      <section id="checklist" class="guide-section">
+        <div class="section-header">
+          <div class="section-tag">Section 06</div>
+          <h2 class="section-title">Interactive Git Learning Checklist</h2>
+          <p class="section-subtitle">Track your hands-on mastery. Your progress is automatically saved to your browser's local storage.</p>
+        </div>
+
+        <div class="checklist-card">
+          <!-- Checklist Dashboard Header -->
+          <div class="checklist-dashboard">
+            <div class="dash-info">
+              <div class="dash-badge-row">
+                <span class="rank-badge" id="user-rank-badge">Git Novice</span>
+                <span class="progress-percent" id="checklist-percentage">0% Completed</span>
+              </div>
+              <h3 class="dash-title">Developer Readiness Score</h3>
+              <p class="dash-sub" id="checklist-counter-text">0 of 16 tasks verified</p>
+            </div>
+
+            <!-- Visual Circular / Bar Tracker -->
+            <div class="dash-progress-area">
+              <div class="main-progress-bar">
+                <div class="main-progress-fill" id="checklist-bar-fill" style="width: 0%;"></div>
+              </div>
+              <div class="dash-action-buttons">
+                <button class="btn btn-sm btn-outline" id="check-all-btn">Mark All Complete</button>
+                <button class="btn btn-sm btn-ghost" id="reset-checklist-btn">Reset Progress</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Checklist Categories -->
+          <div class="checklist-items-container">
+            
+            <!-- Category 1: Setup & Identity -->
+            <div class="checklist-group">
+              <div class="group-header">
+                <span class="group-pill">Phase 1</span>
+                <h4 class="group-title">Environment & Author Identity</h4>
+              </div>
+              <div class="tasks-list">
+                <label class="task-item" data-task-id="task-1">
+                  <input type="checkbox" class="task-checkbox" id="task-1">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Install Git on local workstation</span>
+                    <span class="task-desc">Verify executable version with <code>git --version</code> in terminal</span>
+                  </div>
+                </label>
+
+                <label class="task-item" data-task-id="task-2">
+                  <input type="checkbox" class="task-checkbox" id="task-2">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Configure global author name</span>
+                    <span class="task-desc">Run <code>git config --global user.name "Your Name"</code></span>
+                  </div>
+                </label>
+
+                <label class="task-item" data-task-id="task-3">
+                  <input type="checkbox" class="task-checkbox" id="task-3">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Configure global author email</span>
+                    <span class="task-desc">Run <code>git config --global user.email "email@domain.com"</code> matching GitHub</span>
+                  </div>
+                </label>
+
+                <label class="task-item" data-task-id="task-4">
+                  <input type="checkbox" class="task-checkbox" id="task-4">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Set modern default branch to <code>main</code></span>
+                    <span class="task-desc">Run <code>git config --global init.defaultBranch main</code></span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Category 2: Local Staging & Commits -->
+            <div class="checklist-group">
+              <div class="group-header">
+                <span class="group-pill">Phase 2</span>
+                <h4 class="group-title">Local Repository & Snapshots</h4>
+              </div>
+              <div class="tasks-list">
+                <label class="task-item" data-task-id="task-5">
+                  <input type="checkbox" class="task-checkbox" id="task-5">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Initialize a local project repository</span>
+                    <span class="task-desc">Execute <code>git init</code> in project root folder</span>
+                  </div>
+                </label>
+
+                <label class="task-item" data-task-id="task-6">
+                  <input type="checkbox" class="task-checkbox" id="task-6">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Stage files to the index area</span>
+                    <span class="task-desc">Stage specific files with <code>git add &lt;file&gt;</code> or all with <code>git add .</code></span>
+                  </div>
+                </label>
+
+                <label class="task-item" data-task-id="task-7">
+                  <input type="checkbox" class="task-checkbox" id="task-7">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Inspect working state and staging area</span>
+                    <span class="task-desc">Understand <code>git status</code> output and color codes</span>
+                  </div>
+                </label>
+
+                <label class="task-item" data-task-id="task-8">
+                  <input type="checkbox" class="task-checkbox" id="task-8">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Create a clean descriptive commit</span>
+                    <span class="task-desc">Execute <code>git commit -m "feat: description"</code> with conventional commit format</span>
+                  </div>
+                </label>
+
+                <label class="task-item" data-task-id="task-9">
+                  <input type="checkbox" class="task-checkbox" id="task-9">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Inspect the commit history log</span>
+                    <span class="task-desc">Use <code>git log --oneline --graph</code> to view commit trees and SHAs</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Category 3: Branching & Navigation -->
+            <div class="checklist-group">
+              <div class="group-header">
+                <span class="group-pill">Phase 3</span>
+                <h4 class="group-title">Branching & Isolation</h4>
+              </div>
+              <div class="tasks-list">
+                <label class="task-item" data-task-id="task-10">
+                  <input type="checkbox" class="task-checkbox" id="task-10">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Create a new isolated feature branch</span>
+                    <span class="task-desc">Run <code>git switch -c feature/new-page</code></span>
+                  </div>
+                </label>
+
+                <label class="task-item" data-task-id="task-11">
+                  <input type="checkbox" class="task-checkbox" id="task-11">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Switch cleanly between different branches</span>
+                    <span class="task-desc">Use <code>git switch main</code> and <code>git switch -</code> to toggle</span>
+                  </div>
+                </label>
+
+                <label class="task-item" data-task-id="task-12">
+                  <input type="checkbox" class="task-checkbox" id="task-12">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">List and inspect all existing branches</span>
+                    <span class="task-desc">Run <code>git branch</code> and understand current branch indicator <code>*</code></span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Category 4: GitHub Cloud & Collaboration -->
+            <div class="checklist-group">
+              <div class="group-header">
+                <span class="group-pill">Phase 4</span>
+                <h4 class="group-title">GitHub Remotes & Synchronization</h4>
+              </div>
+              <div class="tasks-list">
+                <label class="task-item" data-task-id="task-13">
+                  <input type="checkbox" class="task-checkbox" id="task-13">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Connect remote repository alias (<code>origin</code>)</span>
+                    <span class="task-desc">Run <code>git remote add origin &lt;github-url&gt;</code> and verify with <code>git remote -v</code></span>
+                  </div>
+                </label>
+
+                <label class="task-item" data-task-id="task-14">
+                  <input type="checkbox" class="task-checkbox" id="task-14">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Push commits and configure upstream tracking</span>
+                    <span class="task-desc">Execute <code>git push -u origin main</code></span>
+                  </div>
+                </label>
+
+                <label class="task-item" data-task-id="task-15">
+                  <input type="checkbox" class="task-checkbox" id="task-15">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Synchronize updates using <code>git pull</code></span>
+                    <span class="task-desc">Pull changes from remote repository into local workspace</span>
+                  </div>
+                </label>
+
+                <label class="task-item" data-task-id="task-16">
+                  <input type="checkbox" class="task-checkbox" id="task-16">
+                  <span class="custom-check"></span>
+                  <div class="task-meta">
+                    <span class="task-name">Deploy website to GitHub Pages</span>
+                    <span class="task-desc">Configure Pages in Repo Settings &gt; Pages &gt; branch: <code>main</code></span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 7: QUICK SCENARIOS & PRO TIPS CHEAT SHEET -->
+      <section id="scenarios" class="guide-section">
+        <div class="section-header">
+          <div class="section-tag">Section 07</div>
+          <h2 class="section-title">Emergency Scenarios: "What Command Do I Use When...?"</h2>
+          <p class="section-subtitle">Real-world scenarios every developer encounters and the immediate commands to solve them.</p>
+        </div>
+
+        <div class="scenarios-accordion" id="scenarios-accordion">
+          
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false">
+              <span class="accordion-question">I want to undo my last commit without losing my work</span>
+              <svg class="chevron-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="accordion-content">
+              <p class="text-secondary">Use a soft reset. This moves HEAD back by one commit while leaving all modified code staged in your working directory:</p>
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git reset --soft HEAD~1" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git reset --soft HEAD~1</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false">
+              <span class="accordion-question">I made changes to a file and want to completely discard them</span>
+              <svg class="chevron-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="accordion-content">
+              <p class="text-secondary">Restore the file back to the state of the last commit:</p>
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git restore <filename>" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git restore &lt;filename&gt;</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false">
+              <span class="accordion-question">I forgot to include a file in the commit I just made</span>
+              <svg class="chevron-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="accordion-content">
+              <p class="text-secondary">Stage the forgotten file, then amend the previous commit without changing the message:</p>
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code="git add forgotten-file.js && git commit --amend --no-edit" aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="prompt">$</span> git add forgotten-file.js
+<span class="prompt">$</span> git commit --amend --no-edit</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" aria-expanded="false">
+              <span class="accordion-question">I need to switch branches quickly, but I'm not ready to commit yet</span>
+              <svg class="chevron-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="accordion-content">
+              <p class="text-secondary">Stash your uncommitted working directory changes into Git's temporary clipboard, switch branches, and retrieve them later:</p>
+              <div class="code-block-wrapper">
+                <div class="code-header">
+                  <span class="code-lang">bash</span>
+                  <button class="copy-btn" data-code='git stash save "WIP feature" && git switch other-branch && git stash pop' aria-label="Copy code">
+                    <svg class="copy-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span class="btn-text">Copy</span>
+                  </button>
+                </div>
+                <pre><code><span class="comment"># Shelve unfinished work:</span>
+<span class="prompt">$</span> git stash save <span class="string">"WIP feature"</span>
+
+<span class="comment"># Switch and do what you need:</span>
+<span class="prompt">$</span> git switch hotfix
+
+<span class="comment"># Return and restore your stashed work:</span>
+<span class="prompt">$</span> git switch feature
+<span class="prompt">$</span> git stash pop</code></pre>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="site-footer">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <div class="brand-logo">
+              <div class="logo-icon">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="6" y1="3" x2="6" y2="15"></line>
+                  <circle cx="18" cy="6" r="3"></circle>
+                  <circle cx="6" cy="18" r="3"></circle>
+                  <path d="M18 9a9 9 0 0 1-9 9"></path>
+                </svg>
+              </div>
+              <span class="logo-text">Git<span class="gradient-text">Master</span></span>
+            </div>
+            <p class="footer-desc">
+              An interactive, comprehensive developer reference and learning handbook for Git version control and GitHub workflows. Built purely with semantic HTML, modern CSS, and vanilla JavaScript.
+            </p>
+          </div>
+
+          <div class="footer-links-group">
+            <h4 class="footer-heading">Quick Links</h4>
+            <ul class="footer-links">
+              <li><a href="#fundamentals">Git Fundamentals</a></li>
+              <li><a href="#installation">Installation & Config</a></li>
+              <li><a href="#commands">11 Core Commands</a></li>
+              <li><a href="#push-guide">First Push Guide</a></li>
+              <li><a href="#github-pages">GitHub Pages</a></li>
+              <li><a href="#checklist">Learning Checklist</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-links-group">
+            <h4 class="footer-heading">Core Commands</h4>
+            <div class="footer-tag-cloud">
+              <a href="#cmd-init" class="mini-tag">git init</a>
+              <a href="#cmd-add" class="mini-tag">git add</a>
+              <a href="#cmd-commit" class="mini-tag">git commit</a>
+              <a href="#cmd-status" class="mini-tag">git status</a>
+              <a href="#cmd-log" class="mini-tag">git log</a>
+              <a href="#cmd-branch" class="mini-tag">git branch</a>
+              <a href="#cmd-switch" class="mini-tag">git switch</a>
+              <a href="#cmd-remote" class="mini-tag">git remote</a>
+              <a href="#cmd-push" class="mini-tag">git push</a>
+              <a href="#cmd-pull" class="mini-tag">git pull</a>
+              <a href="#cmd-clone" class="mini-tag">git clone</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© 2026 GitMaster – Built for developers. Free and open reference guide.</p>
+          <div class="footer-credits">
+            <span>Vanilla HTML5 • CSS3 • JavaScript</span>
+          </div>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="back-to-top" aria-label="Back to top" title="Scroll to top">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <!-- Toast Notification Container for Copied Snippets -->
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span id="toast-message">Copied to clipboard!</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
